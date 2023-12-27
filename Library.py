@@ -4,8 +4,8 @@
 # ===================================================================================
 from numpy import pi
 import gdspy
-import gdslib
-from SPCV4_Definitions import *
+import gdslib # ？？此库已被删除？？
+from Definitions import *
 
 # ===================================================================================
 # STANDARD EBL CROSS-DOT TYPE ALIGNMENT MARKER DEFINITION

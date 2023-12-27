@@ -4,28 +4,19 @@
 # ===================================================================================
 import gdspy
 from numpy import pi
-from SPCV4_Definitions import *
-from MyLibrary import EBLmarker, FCmarker, feedline1, feedline2, CPW_Res, CPW_SQUID
-from MyLibrary import SQUID_Loop, SQUID_Junctions, mytestSQUID, stdtestSQUID, airbridge
-from MyLibrary import FCline, Transfer_Loop, fluxline, connection_pad, contact_pad
+from Definitions import *
+from Library import EBLmarker, FCmarker, feedline1, feedline2, CPW_Res, CPW_SQUID
+from Library import SQUID_Loop, SQUID_Junctions, mytestSQUID, stdtestSQUID, airbridge
+from Library import FCline, Transfer_Loop, fluxline, connection_pad, contact_pad
 
 gdspy.current_library = gdspy.GdsLibrary()
 lib = gdspy.GdsLibrary()
 devicelist = []
 
-logocell = gdspy.GdsLibrary(name='MPW002', infile='C:/Users/achintya/'
-                            'OneDrive - Chalmers/Documents/1. Project/'
-                            '6. Python Scripts/svg2gdsii/nazca_export.gds',
-                            unit=1e-06, precision=1e-09).extract(
-    'SuperMeQ2v1.jpg', overwrite_duplicate=True)
-logo = gdspy.CellReference(logocell,
-                           origin=(300, 2800), magnification=(1), rotation=90)
-
-infra = gdspy.GdsLibrary(name='MPW002', infile='C:/Users/achintya/'
-                         'OneDrive - Chalmers/Documents/1. Project/'
-                         '5. Coupling Project/Chip Design/Wafer Infrastructure.gds',
-                         unit=1e-06, precision=1e-09)
-wafer = infra.extract('MPW002', overwrite_duplicate=False)
+logocell = gdspy.GdsLibrary(name='MPW002', infile='logotest.gds', unit=1e-06, precision=1e-09).extract('nazca', overwrite_duplicate=True)
+logo = gdspy.CellReference(logocell,origin=(300, 2800), magnification=(1), rotation=90)
+infra = gdspy.GdsLibrary(name='MPW002', infile='Wafer_KRC11Example.gds',unit=1e-06, precision=1e-09)
+wafer = infra.extract('Wafer_KRC11_flat', overwrite_duplicate=False)
 
 # %%
 for nofluxline in range(0, 2):
@@ -393,9 +384,7 @@ for nofluxline in range(0, 2):
                 device.remove_polygons(remove_layer)
 
                 devicelist.append(str(deviceName))
-                gdspy.write_gds('C:/Users/achintya/OneDrive - Chalmers/Documents/'
-                                '1. Project/6. Python Scripts/SQUID Cavity/GDSPY Script/'
-                                'SPC Design V4 - Separate Chips/'+deviceName+'.gds',
+                gdspy.write_gds('Test_Wafer.gds',
                                 cells=[deviceName, logocell])
 
 # %%
@@ -597,6 +586,7 @@ for i in range(0, len(devicelist)+4):
 # PRINT LAYOUT
 # ===================================================================================
 lib.top_level()
-gdspy.write_gds('C:/Users/achintya/OneDrive - Chalmers/Documents/1. Project/'
-                '6. Python Scripts/SQUID Cavity/GDSPY Script/SPC_Design_V4.gds',
+gdspy.write_gds('Test.gds',
                 cells=None, name='library', unit=1.0e-6, precision=1.0e-9)
+print('Done')
+exit()
